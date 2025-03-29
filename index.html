@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Album de Fotos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #00041a, #011050);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+
+        /* Estilos para a tela de autenticação */
+        .auth-container {
+            max-width: 400px;
+            width: 95%;
+            padding: 25px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .logo-container {
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+        }
+
+        h2 {
+            font-size: 22px;
+            margin-bottom: 20px;
+            color: #444;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-group input:focus {
+            border-color: #173177;
+            box-shadow: 0 0 8px rgba(30, 58, 138, 0.3);
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 12px;
+            background-color: #172e6d;
+            color: white;
+            font-size: 15px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .form-group button:hover {
+            background-color: #1a3061;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .infobox {
+            padding: 12px;
+            margin-bottom: 18px;
+            border-radius: 8px;
+            font-size: 14px;
+            text-align: center;
+            display: none;
+        }
+
+        .infobox.success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .infobox.error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Estilos para a aplicação principal */
+        #appContent {
+            width: 95%;
+            max-width: 1200px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            margin: 20px 0;
+        }
+
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .user-info span {
+            font-weight: 500;
+            color: #444;
+        }
+
+        .logout-btn {
+            background-color: #172e6d;
+            color: white;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            background-color: #1a3061;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .logout-btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 18px;
+            margin-top: 20px;
+        }
+
+        .photo {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            background-color: white;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .photo:hover {
+            transform: translateY(-5px);
+        }
+
+        .photo img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .photo-actions {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .photo-actions button {
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 6px;
+        }
+
+        .upload-area {
+            border: 2px dashed #ccc;
+            padding: 25px;
+            text-align: center;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            background-color: rgba(255,255,255,0.7);
+        }
+
+        .upload-area h3 {
+            margin-bottom: 15px;
+            color: #444;
+            font-size: 18px;
+        }
+
+        .empty-gallery {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 16px;
+            grid-column: 1 / -1;
+        }
+
+        /* Responsividade melhorada */
+        @media (max-width: 900px) {
+            .gallery {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            }
+            
+            .photo img {
+                height: 150px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .auth-container, #appContent {
+                padding: 20px 15px;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .photo {
+                padding: 12px;
+            }
+            
+            .photo img {
+                height: 200px;
+            }
+            
+            .upload-area {
+                padding: 20px 15px;
+            }
+            
+            .form-group button, .logout-btn {
+                padding: 10px 12px;
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .photo-actions {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .photo-actions button {
+                width: 100%;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Tela de Autenticação -->
+    <div id="authScreen">
+        <div class="auth-container">
+            <div class="logo-container">
+                <img src="https://via.placeholder.com/120x60?text=Album+Fotos" alt="Logo" class="logo">
+            </div>
+            <h2 id="authTitle">Login</h2>
+
+            <!-- Infobox para mensagens -->
+            <div id="infobox" class="infobox hidden"></div>
+
+            <!-- Formulário de Login -->
+            <div id="loginForm">
+                <div class="form-group">
+                    <label for="username">Usuário:</label>
+                    <input type="text" id="username" placeholder="Digite seu usuário">
+                </div>
+                <div class="form-group">
+                    <label for="password">Senha:</label>
+                    <input type="password" id="password" placeholder="Digite sua senha">
+                </div>
+                <div class="form-group">
+                    <button onclick="login()">Entrar</button>
+                </div>
+                <div class="form-group">
+                    <button onclick="showRegisterForm()">Cadastrar-se</button>
+                </div>
+            </div>
+
+            <!-- Formulário de Cadastro -->
+            <div id="registerForm" class="hidden">
+                <div class="form-group">
+                    <label for="newUsername">Novo Usuário:</label>
+                    <input type="text" id="newUsername" placeholder="Escolha um nome de usuário">
+                </div>
+                <div class="form-group">
+                    <label for="newPassword">Nova Senha:</label>
+                    <input type="password" id="newPassword" placeholder="Escolha uma senha (mínimo 6 caracteres)">
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha:</label>
+                    <input type="password" id="confirmPassword" placeholder="Confirme sua senha">
+                </div>
+                <div class="form-group">
+                    <button onclick="register()">Cadastrar</button>
+                </div>
+                <div class="form-group">
+                    <button onclick="showLoginForm()">Voltar ao Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Aplicação Principal (após login) -->
+    <div id="appContent" class="hidden">
+        <div class="user-info">
+            <span>Bem-vindo, <strong id="currentUsername"></strong>!</span>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
+        
+        <h1 style="margin-bottom: 15px;">Meu Album de Fotos</h1>
+        
+        <div class="upload-area">
+            <h3>Adicionar Nova Foto</h3>
+            <input type="file" id="fileInput" accept="image/*" style="margin-bottom: 15px;">
+            <div class="form-group" style="margin: 0 auto; max-width: 200px;">
+                <button onclick="uploadPhoto()">Enviar Foto</button>
+            </div>
+        </div>
+        
+        <div class="gallery" id="photoGallery">
+            <!-- As fotos serão carregadas aqui -->
+        </div>
+    </div>
+
+    <script>
+        // Banco de dados IndexedDB para maior capacidade
+        let db;
+        const DB_NAME = 'PhotoAlbumDB';
+        const DB_VERSION = 1;
+        const USER_STORE = 'users';
+        const PHOTO_STORE = 'photos';
+        
+        // Inicializa o banco de dados
+        function initDB() {
+            return new Promise((resolve, reject) => {
+                const request = indexedDB.open(DB_NAME, DB_VERSION);
+                
+                request.onerror = (event) => {
+                    console.error('Erro ao abrir o banco de dados:', event.target.error);
+                    reject('Erro ao abrir o banco de dados');
+                };
+                
+                request.onsuccess = (event) => {
+                    db = event.target.result;
+                    resolve(db);
+                };
+                
+                request.onupgradeneeded = (event) => {
+                    const db = event.target.result;
+                    
+                    if (!db.objectStoreNames.contains(USER_STORE)) {
+                        db.createObjectStore(USER_STORE, { keyPath: 'username' });
+                    }
+                    
+                    if (!db.objectStoreNames.contains(PHOTO_STORE)) {
+                        const store = db.createObjectStore(PHOTO_STORE, { autoIncrement: true });
+                        store.createIndex('user', 'user', { unique: false });
+                    }
+                };
+            });
+        }
+        
+        // Estado da aplicação
+        let currentUser = null;
+        
+        // Funções auxiliares
+        function showInfobox(message, type) {
+            const infobox = document.getElementById('infobox');
+            infobox.innerText = message;
+            infobox.className = `infobox ${type}`;
+            infobox.style.display = 'block';
+
+            setTimeout(() => {
+                infobox.style.display = 'none';
+            }, 3000);
+        }
+        
+        // Funções de autenticação
+        function showRegisterForm() {
+            document.getElementById('loginForm').classList.add('hidden');
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('authTitle').innerText = "Cadastro";
+        }
+        
+        function showLoginForm() {
+            document.getElementById('registerForm').classList.add('hidden');
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('authTitle').innerText = "Login";
+        }
+        
+        function login() {
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            
+            if (!username || !password) {
+                showInfobox('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            const transaction = db.transaction([USER_STORE], 'readonly');
+            const store = transaction.objectStore(USER_STORE);
+            const request = store.get(username);
+            
+            request.onsuccess = (event) => {
+                const user = event.target.result;
+                
+                if (user && user.password === password) {
+                    currentUser = username;
+                    document.getElementById('currentUsername').textContent = username;
+                    document.getElementById('authScreen').classList.add('hidden');
+                    document.getElementById('appContent').classList.remove('hidden');
+                    loadPhotos();
+                } else {
+                    showInfobox('Usuário ou senha incorretos.', 'error');
+                }
+            };
+            
+            request.onerror = (event) => {
+                showInfobox('Erro ao fazer login. Tente novamente.', 'error');
+            };
+        }
+        
+        function register() {
+            const username = document.getElementById('newUsername').value.trim();
+            const password = document.getElementById('newPassword').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            
+            if (!username || !password || !confirmPassword) {
+                showInfobox('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+            
+            if (password !== confirmPassword) {
+                showInfobox('As senhas não coincidem.', 'error');
+                return;
+            }
+            
+            if (password.length < 6) {
+                showInfobox('A senha deve ter pelo menos 6 caracteres.', 'error');
+                return;
+            }
+            
+            if (username.length < 3) {
+                showInfobox('O nome de usuário deve ter pelo menos 3 caracteres.', 'error');
+                return;
+            }
+            
+            const transaction = db.transaction([USER_STORE], 'readwrite');
+            const store = transaction.objectStore(USER_STORE);
+            const request = store.get(username);
+            
+            request.onsuccess = (event) => {
+                if (event.target.result) {
+                    showInfobox('Este nome de usuário já está em uso.', 'error');
+                } else {
+                    const addRequest = store.add({ username, password });
+                    
+                    addRequest.onsuccess = () => {
+                        showInfobox('Cadastro realizado com sucesso! Por favor, faça login.', 'success');
+                        showLoginForm();
+                        document.getElementById('username').value = username;
+                        document.getElementById('password').value = '';
+                        document.getElementById('newUsername').value = '';
+                        document.getElementById('newPassword').value = '';
+                        document.getElementById('confirmPassword').value = '';
+                    };
+                    
+                    addRequest.onerror = () => {
+                        showInfobox('Erro ao cadastrar usuário. Tente novamente.', 'error');
+                    };
+                }
+            };
+            
+            request.onerror = () => {
+                showInfobox('Erro ao verificar usuário. Tente novamente.', 'error');
+            };
+        }
+        
+        function logout() {
+            currentUser = null;
+            document.getElementById('appContent').classList.add('hidden');
+            document.getElementById('authScreen').classList.remove('hidden');
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+        
+        // Funções do álbum de fotos
+        function loadPhotos() {
+            if (!currentUser) return;
+            
+            const transaction = db.transaction([PHOTO_STORE], 'readonly');
+            const store = transaction.objectStore(PHOTO_STORE);
+            const index = store.index('user');
+            const request = index.getAll(currentUser);
+            
+            request.onsuccess = (event) => {
+                const photos = event.target.result;
+                const gallery = document.getElementById('photoGallery');
+                
+                gallery.innerHTML = '';
+                
+                if (photos.length === 0) {
+                    gallery.innerHTML = '<div class="empty-gallery">Nenhuma foto encontrada. Adicione sua primeira foto!</div>';
+                    return;
+                }
+                
+                photos.forEach((photo, index) => {
+                    const photoElement = document.createElement('div');
+                    photoElement.className = 'photo';
+                    photoElement.innerHTML = `
+                        <img src="${photo.data}" alt="${photo.name}">
+                        <h4>${photo.name.substring(0, 20)}${photo.name.length > 20 ? '...' : ''}</h4>
+                        <div class="photo-actions">
+                            <button onclick="downloadPhoto('${photo.name}', '${photo.data}')">Baixar</button>
+                            <button onclick="deletePhoto(${photo.id})">Excluir</button>
+                        </div>
+                    `;
+                    gallery.appendChild(photoElement);
+                });
+            };
+            
+            request.onerror = () => {
+                const gallery = document.getElementById('photoGallery');
+                gallery.innerHTML = '<div class="empty-gallery">Erro ao carregar fotos. Tente recarregar a página.</div>';
+            };
+        }
+        
+        function uploadPhoto() {
+            if (!currentUser) {
+                showInfobox('Você precisa estar logado para enviar fotos.', 'error');
+                return;
+            }
+            
+            const fileInput = document.getElementById('fileInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                showInfobox('Por favor, selecione uma foto primeiro.', 'error');
+                return;
+            }
+            
+            // Limita o tamanho do arquivo para 5MB (pode aumentar conforme necessidade)
+            if (file.size > 5 * 1024 * 1024) {
+                showInfobox('A foto deve ter menos de 5MB.', 'error');
+                return;
+            }
+            
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                const transaction = db.transaction([PHOTO_STORE], 'readwrite');
+                const store = transaction.objectStore(PHOTO_STORE);
+                
+                const photoData = {
+                    user: currentUser,
+                    name: file.name,
+                    data: e.target.result,
+                    timestamp: new Date().getTime()
+                };
+                
+                const request = store.add(photoData);
+                
+                request.onsuccess = () => {
+                    loadPhotos();
+                    fileInput.value = '';
+                    showInfobox('Foto enviada com sucesso!', 'success');
+                };
+                
+                request.onerror = () => {
+                    showInfobox('Erro ao enviar foto. Tente novamente.', 'error');
+                };
+            };
+            
+            reader.onerror = () => {
+                showInfobox('Erro ao ler o arquivo. Tente novamente.', 'error');
+            };
+            
+            reader.readAsDataURL(file);
+        }
+        
+        function downloadPhoto(name, dataUrl) {
+            const link = document.createElement('a');
+            link.href = dataUrl;
+            link.download = name;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+        
+        function deletePhoto(photoId) {
+            if (confirm('Tem certeza que deseja excluir esta foto?')) {
+                const transaction = db.transaction([PHOTO_STORE], 'readwrite');
+                const store = transaction.objectStore(PHOTO_STORE);
+                const request = store.delete(photoId);
+                
+                request.onsuccess = () => {
+                    loadPhotos();
+                    showInfobox('Foto excluída com sucesso!', 'success');
+                };
+                
+                request.onerror = () => {
+                    showInfobox('Erro ao excluir foto. Tente novamente.', 'error');
+                };
+            }
+        }
+        
+        // Inicializa o aplicativo
+        window.onload = async function() {
+            try {
+                await initDB();
+                showLoginForm();
+                
+                // Verifica se há espaço suficiente (pode ser implementado)
+                if (!navigator.storage || !navigator.storage.estimate) {
+                    console.log('API de estimativa de armazenamento não disponível');
+                } else {
+                    navigator.storage.estimate().then(estimate => {
+                        console.log(`Espaço disponível: ${Math.round(estimate.quota / (1024 * 1024))}MB`);
+                    });
+                }
+            } catch (error) {
+                console.error('Erro ao inicializar o aplicativo:', error);
+                showInfobox('Erro ao inicializar o aplicativo. Recarregue a página.', 'error');
+            }
+        };
+    </script>
+</body>
+</html>
