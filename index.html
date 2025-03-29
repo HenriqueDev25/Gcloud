@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Album de Fotos</title>
+    <title>Gcloud</title>
     <style>
         * {
             margin: 0;
@@ -172,6 +172,81 @@
             box-shadow: none;
         }
 
+        /* Estilos para os álbuns */
+        .albums-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .album {
+            background-color: #f0f2f5;
+            border-radius: 10px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            width: calc(33.333% - 10px);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .album:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .album.active {
+            background-color: #172e6d;
+            color: white;
+        }
+
+        .album-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .album-name {
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .album-actions {
+            display: flex;
+            gap: 5px;
+        }
+
+        .album-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+            color: inherit;
+        }
+
+        .album-thumbnail {
+            width: 100%;
+            height: 120px;
+            border-radius: 8px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .album-thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .album-photo-count {
+            font-size: 12px;
+            margin-top: 5px;
+            color: inherit;
+            opacity: 0.8;
+        }
+
+        /* Estilos para a galeria de fotos */
         .gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -197,8 +272,9 @@
             width: 100%;
             height: 180px;
             object-fit: cover;
-            border-radius: 5px;
+            border-radius: 50%; /* Formato circular */
             margin-bottom: 10px;
+            border: 3px solid #172e6d;
         }
 
         .photo-actions {
@@ -211,6 +287,47 @@
             padding: 8px 15px;
             font-size: 14px;
             border-radius: 6px;
+            background-color: #172e6d;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .photo-actions button:hover {
+            background-color: #1a3061;
+        }
+
+        /* Estilos para o preview da imagem */
+        .image-preview-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .image-preview {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 3px solid #172e6d;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview.empty {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #888;
+            font-size: 14px;
         }
 
         .upload-area {
@@ -236,6 +353,58 @@
             grid-column: 1 / -1;
         }
 
+        /* Modal para criar novo álbum */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            padding: 25px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 400px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            margin: 0;
+            color: #444;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #888;
+        }
+
+        .modal-body {
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
         /* Responsividade melhorada */
         @media (max-width: 900px) {
             .gallery {
@@ -244,6 +413,10 @@
             
             .photo img {
                 height: 150px;
+            }
+
+            .album {
+                width: calc(50% - 10px);
             }
         }
 
@@ -272,6 +445,10 @@
             .form-group button, .logout-btn {
                 padding: 10px 12px;
                 font-size: 14px;
+            }
+
+            .album {
+                width: 100%;
             }
         }
 
@@ -351,16 +528,58 @@
         
         <h1 style="margin-bottom: 15px;">Meu Album de Fotos</h1>
         
+        <!-- Controles de álbuns -->
+        <div style="margin-bottom: 20px;">
+            <button onclick="showNewAlbumModal()" style="padding: 10px 15px; background-color: #172e6d; color: white; border: none; border-radius: 8px; cursor: pointer;">+ Novo Álbum</button>
+        </div>
+        
+        <!-- Lista de álbuns -->
+        <div class="albums-container" id="albumsContainer">
+            <!-- Álbuns serão carregados aqui -->
+        </div>
+        
+        <!-- Área de upload -->
         <div class="upload-area">
             <h3>Adicionar Nova Foto</h3>
-            <input type="file" id="fileInput" accept="image/*" style="margin-bottom: 15px;">
+            <div class="image-preview-container">
+                <div class="image-preview empty" id="imagePreview">Selecione uma imagem</div>
+            </div>
+            <input type="file" id="fileInput" accept="image/*" style="margin-bottom: 15px;" onchange="previewImage()">
+            <div class="form-group" style="margin-bottom: 10px;">
+                <label for="albumSelect">Álbum:</label>
+                <select id="albumSelect" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
+                    <!-- Opções de álbum serão preenchidas via JavaScript -->
+                </select>
+            </div>
             <div class="form-group" style="margin: 0 auto; max-width: 200px;">
                 <button onclick="uploadPhoto()">Enviar Foto</button>
             </div>
         </div>
         
+        <!-- Galeria de fotos -->
+        <h2 id="galleryTitle" style="margin: 20px 0 10px;">Todas as Fotos</h2>
         <div class="gallery" id="photoGallery">
             <!-- As fotos serão carregadas aqui -->
+        </div>
+    </div>
+
+    <!-- Modal para criar novo álbum -->
+    <div id="newAlbumModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Criar Novo Álbum</h3>
+                <button class="modal-close" onclick="hideNewAlbumModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="newAlbumName">Nome do Álbum:</label>
+                    <input type="text" id="newAlbumName" placeholder="Digite o nome do álbum">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button onclick="hideNewAlbumModal()" style="background-color: #ccc; color: #333;">Cancelar</button>
+                <button onclick="createAlbum()" style="background-color: #172e6d; color: white;">Criar</button>
+            </div>
         </div>
     </div>
 
@@ -368,9 +587,14 @@
         // Banco de dados IndexedDB para maior capacidade
         let db;
         const DB_NAME = 'PhotoAlbumDB';
-        const DB_VERSION = 1;
+        const DB_VERSION = 2; // Versão incrementada para adicionar álbuns
         const USER_STORE = 'users';
         const PHOTO_STORE = 'photos';
+        const ALBUM_STORE = 'albums';
+        
+        // Estado da aplicação
+        let currentUser = null;
+        let currentAlbum = null; // null significa "Todos os álbuns"
         
         // Inicializa o banco de dados
         function initDB() {
@@ -389,21 +613,45 @@
                 
                 request.onupgradeneeded = (event) => {
                     const db = event.target.result;
+                    const oldVersion = event.oldVersion;
                     
-                    if (!db.objectStoreNames.contains(USER_STORE)) {
-                        db.createObjectStore(USER_STORE, { keyPath: 'username' });
+                    if (oldVersion < 1) {
+                        // Cria as stores iniciais
+                        if (!db.objectStoreNames.contains(USER_STORE)) {
+                            db.createObjectStore(USER_STORE, { keyPath: 'username' });
+                        }
+                        
+                        if (!db.objectStoreNames.contains(PHOTO_STORE)) {
+                            const store = db.createObjectStore(PHOTO_STORE, { autoIncrement: true });
+                            store.createIndex('user', 'user', { unique: false });
+                        }
                     }
                     
-                    if (!db.objectStoreNames.contains(PHOTO_STORE)) {
-                        const store = db.createObjectStore(PHOTO_STORE, { autoIncrement: true });
-                        store.createIndex('user', 'user', { unique: false });
+                    if (oldVersion < 2) {
+                        // Adiciona a store de álbuns na versão 2
+                        if (!db.objectStoreNames.contains(ALBUM_STORE)) {
+                            const store = db.createObjectStore(ALBUM_STORE, { autoIncrement: true });
+                            store.createIndex('user', 'user', { unique: false });
+                        }
+                        
+                        // Adiciona campo album nas fotos existentes
+                        const transaction = event.target.transaction;
+                        const photoStore = transaction.objectStore(PHOTO_STORE);
+                        const request = photoStore.getAll();
+                        
+                        request.onsuccess = (e) => {
+                            const photos = e.target.result;
+                            photos.forEach(photo => {
+                                if (!photo.album) {
+                                    photo.album = null; // Álbum padrão (sem álbum)
+                                    photoStore.put(photo);
+                                }
+                            });
+                        };
                     }
                 };
             });
         }
-        
-        // Estado da aplicação
-        let currentUser = null;
         
         // Funções auxiliares
         function showInfobox(message, type) {
@@ -451,6 +699,7 @@
                     document.getElementById('currentUsername').textContent = username;
                     document.getElementById('authScreen').classList.add('hidden');
                     document.getElementById('appContent').classList.remove('hidden');
+                    loadAlbums();
                     loadPhotos();
                 } else {
                     showInfobox('Usuário ou senha incorretos.', 'error');
@@ -520,10 +769,233 @@
         
         function logout() {
             currentUser = null;
+            currentAlbum = null;
             document.getElementById('appContent').classList.add('hidden');
             document.getElementById('authScreen').classList.remove('hidden');
             document.getElementById('username').value = '';
             document.getElementById('password').value = '';
+        }
+        
+        // Funções para álbuns
+        function loadAlbums() {
+            if (!currentUser) return;
+            
+            const transaction = db.transaction([ALBUM_STORE], 'readonly');
+            const store = transaction.objectStore(ALBUM_STORE);
+            const index = store.index('user');
+            const request = index.getAll(currentUser);
+            
+            request.onsuccess = (event) => {
+                const albums = event.target.result;
+                const albumsContainer = document.getElementById('albumsContainer');
+                const albumSelect = document.getElementById('albumSelect');
+                
+                // Limpa os containers
+                albumsContainer.innerHTML = '';
+                albumSelect.innerHTML = '';
+                
+                // Adiciona opção padrão
+                const defaultOption = document.createElement('option');
+                defaultOption.value = '';
+                defaultOption.textContent = 'Selecione um álbum';
+                albumSelect.appendChild(defaultOption);
+                
+                // Adiciona álbuns ao dropdown
+                albums.forEach(album => {
+                    const option = document.createElement('option');
+                    option.value = album.id;
+                    option.textContent = album.name;
+                    albumSelect.appendChild(option);
+                });
+                
+                // Adiciona card para "Todos os álbuns"
+                const allAlbumsCard = document.createElement('div');
+                allAlbumsCard.className = `album ${currentAlbum === null ? 'active' : ''}`;
+                allAlbumsCard.innerHTML = `
+                    <div class="album-header">
+                        <div class="album-name">Todos os Álbuns</div>
+                    </div>
+                    <div class="album-thumbnail">
+                        <img src="https://via.placeholder.com/300x200?text=Todas+Fotos" alt="Todos os Álbuns">
+                    </div>
+                    <div class="album-photo-count">${countPhotosInAlbum(null)} fotos</div>
+                `;
+                allAlbumsCard.onclick = () => {
+                    currentAlbum = null;
+                    loadPhotos();
+                    updateActiveAlbumClass();
+                };
+                albumsContainer.appendChild(allAlbumsCard);
+                
+                // Adiciona cards para cada álbum
+                albums.forEach(album => {
+                    const albumCard = document.createElement('div');
+                    albumCard.className = `album ${currentAlbum === album.id ? 'active' : ''}`;
+                    albumCard.innerHTML = `
+                        <div class="album-header">
+                            <div class="album-name">${album.name}</div>
+                            <div class="album-actions">
+                                <button onclick="event.stopPropagation(); deleteAlbum(${album.id})">🗑️</button>
+                            </div>
+                        </div>
+                        <div class="album-thumbnail">
+                            <img src="${getAlbumThumbnail(album.id)}" alt="${album.name}">
+                        </div>
+                        <div class="album-photo-count">${countPhotosInAlbum(album.id)} fotos</div>
+                    `;
+                    albumCard.onclick = () => {
+                        currentAlbum = album.id;
+                        loadPhotos();
+                        updateActiveAlbumClass();
+                    };
+                    albumsContainer.appendChild(albumCard);
+                });
+            };
+        }
+        
+        function countPhotosInAlbum(albumId) {
+            return new Promise((resolve) => {
+                const transaction = db.transaction([PHOTO_STORE], 'readonly');
+                const store = transaction.objectStore(PHOTO_STORE);
+                const request = store.getAll();
+                
+                request.onsuccess = (event) => {
+                    const photos = event.target.result;
+                    const filteredPhotos = photos.filter(photo => 
+                        photo.user === currentUser && 
+                        (albumId === null || photo.album === albumId)
+                    );
+                    resolve(filteredPhotos.length);
+                };
+                
+                request.onerror = () => resolve(0);
+            });
+        }
+        
+        function getAlbumThumbnail(albumId) {
+            // Esta função seria melhorada para pegar a primeira foto do álbum
+            // Por enquanto, usamos um placeholder
+            return 'https://via.placeholder.com/300x200?text=Album';
+        }
+        
+        function showNewAlbumModal() {
+            document.getElementById('newAlbumModal').style.display = 'flex';
+            document.getElementById('newAlbumName').value = '';
+        }
+        
+        function hideNewAlbumModal() {
+            document.getElementById('newAlbumModal').style.display = 'none';
+        }
+        
+        function createAlbum() {
+            const albumName = document.getElementById('newAlbumName').value.trim();
+            
+            if (!albumName) {
+                showInfobox('Por favor, digite um nome para o álbum.', 'error');
+                return;
+            }
+            
+            const transaction = db.transaction([ALBUM_STORE], 'readwrite');
+            const store = transaction.objectStore(ALBUM_STORE);
+            const album = {
+                user: currentUser,
+                name: albumName,
+                createdAt: new Date().getTime()
+            };
+            
+            const request = store.add(album);
+            
+            request.onsuccess = () => {
+                hideNewAlbumModal();
+                loadAlbums();
+                showInfobox('Álbum criado com sucesso!', 'success');
+            };
+            
+            request.onerror = () => {
+                showInfobox('Erro ao criar álbum. Tente novamente.', 'error');
+            };
+        }
+        
+        function deleteAlbum(albumId) {
+            if (confirm('Tem certeza que deseja excluir este álbum? As fotos não serão excluídas, apenas removidas do álbum.')) {
+                // Primeiro, remove o álbum
+                const transaction = db.transaction([ALBUM_STORE, PHOTO_STORE], 'readwrite');
+                const albumStore = transaction.objectStore(ALBUM_STORE);
+                const photoStore = transaction.objectStore(PHOTO_STORE);
+                
+                // Remove o álbum
+                const deleteRequest = albumStore.delete(albumId);
+                
+                // Atualiza as fotos deste álbum para album=null
+                const photoRequest = photoStore.getAll();
+                
+                photoRequest.onsuccess = (event) => {
+                    const photos = event.target.result;
+                    photos.forEach(photo => {
+                        if (photo.album === albumId) {
+                            photo.album = null;
+                            photoStore.put(photo);
+                        }
+                    });
+                };
+                
+                deleteRequest.onsuccess = () => {
+                    if (currentAlbum === albumId) {
+                        currentAlbum = null;
+                    }
+                    loadAlbums();
+                    loadPhotos();
+                    showInfobox('Álbum excluído com sucesso!', 'success');
+                };
+                
+                deleteRequest.onerror = () => {
+                    showInfobox('Erro ao excluir álbum. Tente novamente.', 'error');
+                };
+            }
+        }
+        
+        function updateActiveAlbumClass() {
+            const albums = document.querySelectorAll('.album');
+            albums.forEach(album => {
+                album.classList.remove('active');
+            });
+            
+            if (currentAlbum === null) {
+                // Ativa o card "Todos os Álbuns"
+                if (albums.length > 0) {
+                    albums[0].classList.add('active');
+                }
+            } else {
+                // Ativa o álbum correspondente
+                const albumElements = document.querySelectorAll('.album');
+                for (let i = 1; i < albumElements.length; i++) {
+                    const albumElement = albumElements[i];
+                    // Verifica se o álbum corresponde ao currentAlbum
+                    // (Esta verificação precisaria ser mais robusta em uma aplicação real)
+                    if (i === currentAlbum) {
+                        albumElement.classList.add('active');
+                        break;
+                    }
+                }
+            }
+            
+            // Atualiza o título da galeria
+            const galleryTitle = document.getElementById('galleryTitle');
+            if (currentAlbum === null) {
+                galleryTitle.textContent = 'Todas as Fotos';
+            } else {
+                // Busca o nome do álbum atual
+                const transaction = db.transaction([ALBUM_STORE], 'readonly');
+                const store = transaction.objectStore(ALBUM_STORE);
+                const request = store.get(currentAlbum);
+                
+                request.onsuccess = (event) => {
+                    const album = event.target.result;
+                    if (album) {
+                        galleryTitle.textContent = `Álbum: ${album.name}`;
+                    }
+                };
+            }
         }
         
         // Funções do álbum de fotos
@@ -532,8 +1004,7 @@
             
             const transaction = db.transaction([PHOTO_STORE], 'readonly');
             const store = transaction.objectStore(PHOTO_STORE);
-            const index = store.index('user');
-            const request = index.getAll(currentUser);
+            const request = store.getAll();
             
             request.onsuccess = (event) => {
                 const photos = event.target.result;
@@ -541,12 +1012,18 @@
                 
                 gallery.innerHTML = '';
                 
-                if (photos.length === 0) {
+                // Filtra fotos do usuário atual e do álbum atual (se aplicável)
+                const filteredPhotos = photos.filter(photo => 
+                    photo.user === currentUser && 
+                    (currentAlbum === null || photo.album === currentAlbum)
+                );
+                
+                if (filteredPhotos.length === 0) {
                     gallery.innerHTML = '<div class="empty-gallery">Nenhuma foto encontrada. Adicione sua primeira foto!</div>';
                     return;
                 }
                 
-                photos.forEach((photo, index) => {
+                filteredPhotos.forEach((photo) => {
                     const photoElement = document.createElement('div');
                     photoElement.className = 'photo';
                     photoElement.innerHTML = `
@@ -567,6 +1044,25 @@
             };
         }
         
+        function previewImage() {
+            const fileInput = document.getElementById('fileInput');
+            const preview = document.getElementById('imagePreview');
+            
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
+                    preview.classList.remove('empty');
+                };
+                
+                reader.readAsDataURL(fileInput.files[0]);
+            } else {
+                preview.innerHTML = 'Selecione uma imagem';
+                preview.classList.add('empty');
+            }
+        }
+        
         function uploadPhoto() {
             if (!currentUser) {
                 showInfobox('Você precisa estar logado para enviar fotos.', 'error');
@@ -575,6 +1071,8 @@
             
             const fileInput = document.getElementById('fileInput');
             const file = fileInput.files[0];
+            const albumSelect = document.getElementById('albumSelect');
+            const albumId = albumSelect.value ? parseInt(albumSelect.value) : null;
             
             if (!file) {
                 showInfobox('Por favor, selecione uma foto primeiro.', 'error');
@@ -587,6 +1085,12 @@
                 return;
             }
             
+            // Verifica se um álbum foi selecionado
+            if (albumSelect.value === '') {
+                showInfobox('Por favor, selecione um álbum para a foto.', 'error');
+                return;
+            }
+            
             const reader = new FileReader();
             
             reader.onload = function(e) {
@@ -595,6 +1099,7 @@
                 
                 const photoData = {
                     user: currentUser,
+                    album: albumId,
                     name: file.name,
                     data: e.target.result,
                     timestamp: new Date().getTime()
@@ -604,7 +1109,10 @@
                 
                 request.onsuccess = () => {
                     loadPhotos();
+                    loadAlbums(); // Atualiza a contagem de fotos nos álbuns
                     fileInput.value = '';
+                    document.getElementById('imagePreview').innerHTML = 'Selecione uma imagem';
+                    document.getElementById('imagePreview').classList.add('empty');
                     showInfobox('Foto enviada com sucesso!', 'success');
                 };
                 
@@ -637,6 +1145,7 @@
                 
                 request.onsuccess = () => {
                     loadPhotos();
+                    loadAlbums(); // Atualiza a contagem de fotos nos álbuns
                     showInfobox('Foto excluída com sucesso!', 'success');
                 };
                 
