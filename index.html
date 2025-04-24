@@ -2,1178 +2,831 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Gcloud</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>iCloud Simulator</title>
     <style>
-        * {
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0071e3, #00a2ff);
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #00041a, #011050);
+            min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            margin: 0;
             color: #333;
         }
-
-        /* Estilos para a tela de autenticação */
-        .auth-container {
-            max-width: 400px;
-            width: 95%;
-            padding: 25px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        
+        .container {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            padding: 40px;
             text-align: center;
-            backdrop-filter: blur(10px);
-        }
-
-        .logo-container {
-            margin-bottom: 20px;
-        }
-
-        .logo {
-            width: 120px;
-            height: auto;
-        }
-
-        h2 {
-            font-size: 22px;
-            margin-bottom: 20px;
-            color: #444;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-            text-align: left;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 14px;
-            color: #555;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 12px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.3s, box-shadow 0.3s;
-        }
-
-        .form-group input:focus {
-            border-color: #173177;
-            box-shadow: 0 0 8px rgba(30, 58, 138, 0.3);
-        }
-
-        .form-group button {
-            width: 100%;
-            padding: 12px;
-            background-color: #172e6d;
-            color: white;
-            font-size: 15px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .form-group button:hover {
-            background-color: #1a3061;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group button:active {
-            transform: translateY(0);
-            box-shadow: none;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .infobox {
-            padding: 12px;
-            margin-bottom: 18px;
-            border-radius: 8px;
-            font-size: 14px;
-            text-align: center;
-            display: none;
-        }
-
-        .infobox.success {
-            background-color: #d4edda;
-            color: #155724;
-            border: 1px solid #c3e6cb;
-        }
-
-        .infobox.error {
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-        }
-
-        /* Estilos para a aplicação principal */
-        #appContent {
-            width: 95%;
-            max-width: 1200px;
-            padding: 20px;
-            background-color: rgba(255, 255, 255, 0.9);
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            backdrop-filter: blur(10px);
             margin: 20px 0;
         }
-
-        .user-info {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        
+        .logo {
+            width: 80px;
             margin-bottom: 20px;
-            padding-bottom: 15px;
+        }
+        
+        h1 {
+            margin: 0 0 30px;
+            color: #0071e3;
+            font-weight: 500;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #0071e3;
+        }
+        
+        button {
+            background-color: #0071e3;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #0062c4;
+        }
+        
+        .toggle-form {
+            margin-top: 20px;
+            font-size: 14px;
+        }
+        
+        .toggle-form a {
+            color: #0071e3;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        
+        .toggle-form a:hover {
+            text-decoration: underline;
+        }
+        
+        .dashboard {
+            display: none;
+        }
+        
+        .user-info {
+            margin-bottom: 30px;
+        }
+        
+        .logout-btn {
+            background-color: #ff3b30;
+        }
+        
+        .logout-btn:hover {
+            background-color: #e0352b;
+        }
+        
+        .error {
+            color: #ff3b30;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        .success {
+            color: #34c759;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        
+        /* Estilos para a área de arquivos */
+        .file-upload {
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 8px;
+            text-align: center;
+        }
+        
+        .file-upload:hover {
+            border-color: #0071e3;
+        }
+        
+        .file-list {
+            margin-top: 30px;
+            text-align: left;
+        }
+        
+        .file-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .file-item:hover {
+            background-color: #f5f5f5;
+        }
+        
+        .file-icon {
+            width: 40px;
+            height: 40px;
+            margin-right: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #0071e3;
+            font-size: 20px;
+        }
+        
+        .file-info {
+            flex-grow: 1;
+        }
+        
+        .file-name {
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+        
+        .file-size {
+            color: #777;
+            font-size: 12px;
+        }
+        
+        .file-actions {
+            margin-left: 15px;
+        }
+        
+        .file-actions button {
+            background: none;
+            border: none;
+            color: #ff3b30;
+            padding: 5px;
+            width: auto;
+            font-size: 14px;
+        }
+        
+        .file-preview {
+            max-width: 100px;
+            max-height: 100px;
+            margin-right: 15px;
+            border-radius: 4px;
+        }
+        
+        .storage-info {
+            margin-bottom: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+        }
+        
+        .progress-container {
+            background-color: #e0e0e0;
+            border-radius: 5px;
+            height: 10px;
+            margin: 10px 0;
+        }
+        
+        .progress-bar {
+            background-color: #0071e3;
+            height: 100%;
+            border-radius: 5px;
+        }
+        
+        .tab-container {
+            display: flex;
+            margin-bottom: 20px;
             border-bottom: 1px solid #ddd;
         }
-
-        .user-info span {
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab.active {
+            border-bottom: 2px solid #0071e3;
+            color: #0071e3;
             font-weight: 500;
-            color: #444;
         }
-
-        .logout-btn {
-            background-color: #172e6d;
-            color: white;
-            padding: 10px 15px;
-            font-size: 14px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .logout-btn:hover {
-            background-color: #1a3061;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .logout-btn:active {
-            transform: translateY(0);
-            box-shadow: none;
-        }
-
-        /* Estilos para os álbuns */
-        .albums-container {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-
-        .album {
-            background-color: #f0f2f5;
-            border-radius: 10px;
-            padding: 15px;
-            cursor: pointer;
-            transition: all 0.3s;
-            width: calc(33.333% - 10px);
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-
-        .album:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-        }
-
-        .album.active {
-            background-color: #172e6d;
-            color: white;
-        }
-
-        .album-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        .album-name {
-            font-weight: 600;
-            font-size: 16px;
-        }
-
-        .album-actions {
-            display: flex;
-            gap: 5px;
-        }
-
-        .album-actions button {
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            color: inherit;
-        }
-
-        .album-thumbnail {
-            width: 100%;
-            height: 120px;
-            border-radius: 8px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .album-thumbnail img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .album-photo-count {
-            font-size: 12px;
-            margin-top: 5px;
-            color: inherit;
-            opacity: 0.8;
-        }
-
-        /* Estilos para a galeria de fotos */
-        .gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 18px;
-            margin-top: 20px;
-        }
-
-        .photo {
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            background-color: white;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
-        }
-
-        .photo:hover {
-            transform: translateY(-5px);
-        }
-
-        .photo img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-            border-radius: 50%; /* Formato circular */
-            margin-bottom: 10px;
-            border: 3px solid #172e6d;
-        }
-
-        .photo-actions {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-        }
-
-        .photo-actions button {
-            padding: 8px 15px;
-            font-size: 14px;
-            border-radius: 6px;
-            background-color: #172e6d;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        .photo-actions button:hover {
-            background-color: #1a3061;
-        }
-
-        /* Estilos para o preview da imagem */
-        .image-preview-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 15px;
-        }
-
-        .image-preview {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            overflow: hidden;
-            border: 3px solid #172e6d;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .image-preview img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .image-preview.empty {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: #888;
-            font-size: 14px;
-        }
-
-        .upload-area {
-            border: 2px dashed #ccc;
-            padding: 25px;
-            text-align: center;
-            margin-bottom: 25px;
-            border-radius: 10px;
-            background-color: rgba(255,255,255,0.7);
-        }
-
-        .upload-area h3 {
-            margin-bottom: 15px;
-            color: #444;
-            font-size: 18px;
-        }
-
-        .empty-gallery {
-            text-align: center;
-            padding: 40px;
-            color: #666;
-            font-size: 16px;
-            grid-column: 1 / -1;
-        }
-
-        /* Modal para criar novo álbum */
-        .modal {
+        
+        .tab-content {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
         }
-
-        .modal-content {
-            background-color: white;
-            padding: 25px;
-            border-radius: 10px;
-            width: 90%;
-            max-width: 400px;
-        }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .modal-header h3 {
-            margin: 0;
-            color: #444;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            font-size: 20px;
-            cursor: pointer;
-            color: #888;
-        }
-
-        .modal-body {
-            margin-bottom: 20px;
-        }
-
-        .modal-footer {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-
-        /* Responsividade melhorada */
-        @media (max-width: 900px) {
-            .gallery {
-                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            }
-            
-            .photo img {
-                height: 150px;
-            }
-
-            .album {
-                width: calc(50% - 10px);
-            }
-        }
-
-        @media (max-width: 600px) {
-            .auth-container, #appContent {
-                padding: 20px 15px;
-            }
-            
-            .gallery {
-                grid-template-columns: 1fr;
-                gap: 15px;
-            }
-            
-            .photo {
-                padding: 12px;
-            }
-            
-            .photo img {
-                height: 200px;
-            }
-            
-            .upload-area {
-                padding: 20px 15px;
-            }
-            
-            .form-group button, .logout-btn {
-                padding: 10px 12px;
-                font-size: 14px;
-            }
-
-            .album {
-                width: 100%;
-            }
-        }
-
-        @media (max-width: 400px) {
-            .photo-actions {
-                flex-direction: column;
-                gap: 8px;
-            }
-            
-            .photo-actions button {
-                width: 100%;
-            }
+        
+        .tab-content.active {
+            display: block;
         }
     </style>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Tela de Autenticação -->
-    <div id="authScreen">
-        <div class="auth-container">
-            <div class="logo-container">
-                <img src="https://via.placeholder.com/120x60?text=Album+Fotos" alt="Logo" class="logo">
+    <div class="container">
+        <!-- Tela de Login -->
+        <div id="login-form">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Icloud_logo.svg/1200px-Icloud_logo.svg.png" alt="iCloud Logo" class="logo">
+            <h1>Fazer Login no iCloud</h1>
+            <div class="form-group">
+                <label for="login-email">Endereço de e-mail</label>
+                <input type="email" id="login-email" placeholder="exemplo@email.com">
             </div>
-            <h2 id="authTitle">Login</h2>
-
-            <!-- Infobox para mensagens -->
-            <div id="infobox" class="infobox hidden"></div>
-
-            <!-- Formulário de Login -->
-            <div id="loginForm">
-                <div class="form-group">
-                    <label for="username">Usuário:</label>
-                    <input type="text" id="username" placeholder="Digite seu usuário">
-                </div>
-                <div class="form-group">
-                    <label for="password">Senha:</label>
-                    <input type="password" id="password" placeholder="Digite sua senha">
-                </div>
-                <div class="form-group">
-                    <button onclick="login()">Entrar</button>
-                </div>
-                <div class="form-group">
-                    <button onclick="showRegisterForm()">Cadastrar-se</button>
-                </div>
+            <div class="form-group">
+                <label for="login-password">Senha</label>
+                <input type="password" id="login-password" placeholder="Digite sua senha">
             </div>
-
-            <!-- Formulário de Cadastro -->
-            <div id="registerForm" class="hidden">
-                <div class="form-group">
-                    <label for="newUsername">Novo Usuário:</label>
-                    <input type="text" id="newUsername" placeholder="Escolha um nome de usuário">
-                </div>
-                <div class="form-group">
-                    <label for="newPassword">Nova Senha:</label>
-                    <input type="password" id="newPassword" placeholder="Escolha uma senha (mínimo 6 caracteres)">
-                </div>
-                <div class="form-group">
-                    <label for="confirmPassword">Confirmar Senha:</label>
-                    <input type="password" id="confirmPassword" placeholder="Confirme sua senha">
-                </div>
-                <div class="form-group">
-                    <button onclick="register()">Cadastrar</button>
-                </div>
-                <div class="form-group">
-                    <button onclick="showLoginForm()">Voltar ao Login</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Aplicação Principal (após login) -->
-    <div id="appContent" class="hidden">
-        <div class="user-info">
-            <span>Bem-vindo, <strong id="currentUsername"></strong>!</span>
-            <button class="logout-btn" onclick="logout()">Sair</button>
-        </div>
-        
-        <h1 style="margin-bottom: 15px;">Meu Album de Fotos</h1>
-        
-        <!-- Controles de álbuns -->
-        <div style="margin-bottom: 20px;">
-            <button onclick="showNewAlbumModal()" style="padding: 10px 15px; background-color: #172e6d; color: white; border: none; border-radius: 8px; cursor: pointer;">+ Novo Álbum</button>
-        </div>
-        
-        <!-- Lista de álbuns -->
-        <div class="albums-container" id="albumsContainer">
-            <!-- Álbuns serão carregados aqui -->
-        </div>
-        
-        <!-- Área de upload -->
-        <div class="upload-area">
-            <h3>Adicionar Nova Foto</h3>
-            <div class="image-preview-container">
-                <div class="image-preview empty" id="imagePreview">Selecione uma imagem</div>
-            </div>
-            <input type="file" id="fileInput" accept="image/*" style="margin-bottom: 15px;" onchange="previewImage()">
-            <div class="form-group" style="margin-bottom: 10px;">
-                <label for="albumSelect">Álbum:</label>
-                <select id="albumSelect" style="width: 100%; padding: 10px; border-radius: 8px; border: 1px solid #ddd;">
-                    <!-- Opções de álbum serão preenchidas via JavaScript -->
-                </select>
-            </div>
-            <div class="form-group" style="margin: 0 auto; max-width: 200px;">
-                <button onclick="uploadPhoto()">Enviar Foto</button>
+            <div id="login-error" class="error"></div>
+            <button id="login-btn">Entrar</button>
+            <div class="toggle-form">
+                Não tem uma conta? <a id="show-register">Registre-se</a>
             </div>
         </div>
         
-        <!-- Galeria de fotos -->
-        <h2 id="galleryTitle" style="margin: 20px 0 10px;">Todas as Fotos</h2>
-        <div class="gallery" id="photoGallery">
-            <!-- As fotos serão carregadas aqui -->
-        </div>
-    </div>
-
-    <!-- Modal para criar novo álbum -->
-    <div id="newAlbumModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>Criar Novo Álbum</h3>
-                <button class="modal-close" onclick="hideNewAlbumModal()">&times;</button>
+        <!-- Tela de Registro -->
+        <div id="register-form" style="display: none;">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Icloud_logo.svg/1200px-Icloud_logo.svg.png" alt="iCloud Logo" class="logo">
+            <h1>Criar Conta no iCloud</h1>
+            <div class="form-group">
+                <label for="register-name">Nome completo</label>
+                <input type="text" id="register-name" placeholder="Seu nome completo">
             </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label for="newAlbumName">Nome do Álbum:</label>
-                    <input type="text" id="newAlbumName" placeholder="Digite o nome do álbum">
+            <div class="form-group">
+                <label for="register-email">Endereço de e-mail</label>
+                <input type="email" id="register-email" placeholder="exemplo@email.com">
+            </div>
+            <div class="form-group">
+                <label for="register-password">Senha</label>
+                <input type="password" id="register-password" placeholder="Crie uma senha segura">
+            </div>
+            <div class="form-group">
+                <label for="register-confirm-password">Confirmar Senha</label>
+                <input type="password" id="register-confirm-password" placeholder="Digite a senha novamente">
+            </div>
+            <div id="register-error" class="error"></div>
+            <div id="register-success" class="success"></div>
+            <button id="register-btn">Criar Conta</button>
+            <div class="toggle-form">
+                Já tem uma conta? <a id="show-login">Fazer Login</a>
+            </div>
+        </div>
+        
+        <!-- Dashboard após login -->
+        <div id="dashboard" class="dashboard">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7d/Icloud_logo.svg/1200px-Icloud_logo.svg.png" alt="iCloud Logo" class="logo">
+            <h1>Bem-vindo ao iCloud</h1>
+            <div class="user-info">
+                <p id="user-name"></p>
+                <p id="user-email"></p>
+            </div>
+            
+            <div class="storage-info">
+                <p>Armazenamento usado: <span id="storage-used">0</span>MB de 5000MB</p>
+                <div class="progress-container">
+                    <div id="storage-bar" class="progress-bar"></div>
                 </div>
             </div>
-            <div class="modal-footer">
-                <button onclick="hideNewAlbumModal()" style="background-color: #ccc; color: #333;">Cancelar</button>
-                <button onclick="createAlbum()" style="background-color: #172e6d; color: white;">Criar</button>
+            
+            <div class="tab-container">
+                <div class="tab active" data-tab="files">Arquivos</div>
+                <div class="tab" data-tab="photos">Fotos</div>
             </div>
+            
+            <!-- Conteúdo da aba Arquivos -->
+            <div id="files-tab" class="tab-content active">
+                <div class="file-upload" id="file-drop-area">
+                    <p>Arraste e solte arquivos aqui ou</p>
+                    <input type="file" id="file-input" multiple style="display: none;">
+                    <button id="browse-btn" type="button">Selecionar Arquivos</button>
+                </div>
+                
+                <div class="file-list" id="file-list">
+                    <!-- Arquivos serão listados aqui -->
+                </div>
+            </div>
+            
+            <!-- Conteúdo da aba Fotos -->
+            <div id="photos-tab" class="tab-content">
+                <div class="file-upload" id="photo-drop-area">
+                    <p>Arraste e solte fotos aqui ou</p>
+                    <input type="file" id="photo-input" accept="image/*" multiple style="display: none;">
+                    <button id="browse-photos-btn" type="button">Selecionar Fotos</button>
+                </div>
+                
+                <div class="photo-grid" id="photo-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 20px;">
+                    <!-- Fotos serão exibidas aqui -->
+                </div>
+            </div>
+            
+            <button id="logout-btn" class="logout-btn">Sair</button>
         </div>
     </div>
 
     <script>
-        // Banco de dados IndexedDB para maior capacidade
-        let db;
-        const DB_NAME = 'PhotoAlbumDB';
-        const DB_VERSION = 2; // Versão incrementada para adicionar álbuns
-        const USER_STORE = 'users';
-        const PHOTO_STORE = 'photos';
-        const ALBUM_STORE = 'albums';
-        
-        // Estado da aplicação
-        let currentUser = null;
-        let currentAlbum = null; // null significa "Todos os álbuns"
-        
-        // Inicializa o banco de dados
-        function initDB() {
-            return new Promise((resolve, reject) => {
-                const request = indexedDB.open(DB_NAME, DB_VERSION);
-                
-                request.onerror = (event) => {
-                    console.error('Erro ao abrir o banco de dados:', event.target.error);
-                    reject('Erro ao abrir o banco de dados');
-                };
-                
-                request.onsuccess = (event) => {
-                    db = event.target.result;
-                    resolve(db);
-                };
-                
-                request.onupgradeneeded = (event) => {
-                    const db = event.target.result;
-                    const oldVersion = event.oldVersion;
-                    
-                    if (oldVersion < 1) {
-                        // Cria as stores iniciais
-                        if (!db.objectStoreNames.contains(USER_STORE)) {
-                            db.createObjectStore(USER_STORE, { keyPath: 'username' });
-                        }
-                        
-                        if (!db.objectStoreNames.contains(PHOTO_STORE)) {
-                            const store = db.createObjectStore(PHOTO_STORE, { autoIncrement: true });
-                            store.createIndex('user', 'user', { unique: false });
-                        }
-                    }
-                    
-                    if (oldVersion < 2) {
-                        // Adiciona a store de álbuns na versão 2
-                        if (!db.objectStoreNames.contains(ALBUM_STORE)) {
-                            const store = db.createObjectStore(ALBUM_STORE, { autoIncrement: true });
-                            store.createIndex('user', 'user', { unique: false });
-                        }
-                        
-                        // Adiciona campo album nas fotos existentes
-                        const transaction = event.target.transaction;
-                        const photoStore = transaction.objectStore(PHOTO_STORE);
-                        const request = photoStore.getAll();
-                        
-                        request.onsuccess = (e) => {
-                            const photos = e.target.result;
-                            photos.forEach(photo => {
-                                if (!photo.album) {
-                                    photo.album = null; // Álbum padrão (sem álbum)
-                                    photoStore.put(photo);
-                                }
-                            });
-                        };
-                    }
-                };
-            });
-        }
-        
-        // Funções auxiliares
-        function showInfobox(message, type) {
-            const infobox = document.getElementById('infobox');
-            infobox.innerText = message;
-            infobox.className = `infobox ${type}`;
-            infobox.style.display = 'block';
+        // Elementos do DOM
+        const loginForm = document.getElementById('login-form');
+        const registerForm = document.getElementById('register-form');
+        const dashboard = document.getElementById('dashboard');
+        const showRegister = document.getElementById('show-register');
+        const showLogin = document.getElementById('show-login');
+        const loginBtn = document.getElementById('login-btn');
+        const registerBtn = document.getElementById('register-btn');
+        const logoutBtn = document.getElementById('logout-btn');
+        const loginError = document.getElementById('login-error');
+        const registerError = document.getElementById('register-error');
+        const registerSuccess = document.getElementById('register-success');
+        const userName = document.getElementById('user-name');
+        const userEmail = document.getElementById('user-email');
+        const storageUsed = document.getElementById('storage-used');
+        const storageBar = document.getElementById('storage-bar');
+        const fileInput = document.getElementById('file-input');
+        const browseBtn = document.getElementById('browse-btn');
+        const fileList = document.getElementById('file-list');
+        const fileDropArea = document.getElementById('file-drop-area');
+        const photoInput = document.getElementById('photo-input');
+        const browsePhotosBtn = document.getElementById('browse-photos-btn');
+        const photoGrid = document.getElementById('photo-grid');
+        const photoDropArea = document.getElementById('photo-drop-area');
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
 
-            setTimeout(() => {
-                infobox.style.display = 'none';
-            }, 3000);
+        // Variáveis globais
+        let currentUser = null;
+        const MAX_STORAGE = 5000; // 5GB em MB
+
+        // Alternar entre formulários de login e registro
+        showRegister.addEventListener('click', () => {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'block';
+            registerError.textContent = '';
+            registerSuccess.textContent = '';
+        });
+
+        showLogin.addEventListener('click', () => {
+            registerForm.style.display = 'none';
+            loginForm.style.display = 'block';
+            loginError.textContent = '';
+        });
+
+        // Alternar entre abas
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                tab.classList.add('active');
+                document.getElementById(`${tab.dataset.tab}-tab`).classList.add('active');
+            });
+        });
+
+        // Função para verificar se o usuário está logado
+        function checkLoggedIn() {
+            const user = JSON.parse(localStorage.getItem('currentUser'));
+            if (user) {
+                currentUser = user;
+                showDashboard(user);
+                loadUserFiles();
+                loadUserPhotos();
+                return true;
+            }
+            return false;
         }
-        
-        // Funções de autenticação
-        function showRegisterForm() {
-            document.getElementById('loginForm').classList.add('hidden');
-            document.getElementById('registerForm').classList.remove('hidden');
-            document.getElementById('authTitle').innerText = "Cadastro";
-        }
-        
-        function showLoginForm() {
-            document.getElementById('registerForm').classList.add('hidden');
-            document.getElementById('loginForm').classList.remove('hidden');
-            document.getElementById('authTitle').innerText = "Login";
-        }
-        
-        function login() {
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value.trim();
+
+        // Mostrar dashboard
+        function showDashboard(user) {
+            loginForm.style.display = 'none';
+            registerForm.style.display = 'none';
+            dashboard.style.display = 'block';
             
-            if (!username || !password) {
-                showInfobox('Por favor, preencha todos os campos.', 'error');
+            userName.textContent = user.name;
+            userEmail.textContent = user.email;
+            
+            updateStorageDisplay();
+        }
+
+        // Atualizar display de armazenamento
+        function updateStorageDisplay() {
+            const userFiles = JSON.parse(localStorage.getItem(`userFiles_${currentUser.email}`)) || [];
+            const userPhotos = JSON.parse(localStorage.getItem(`userPhotos_${currentUser.email}`)) || [];
+            
+            // Calcular tamanho total em MB (simulado)
+            let totalSize = 0;
+            
+            userFiles.forEach(file => {
+                totalSize += file.size / (1024 * 1024); // Converter bytes para MB
+            });
+            
+            userPhotos.forEach(photo => {
+                totalSize += photo.size / (1024 * 1024); // Converter bytes para MB
+            });
+            
+            // Arredondar para 2 casas decimais
+            totalSize = Math.round(totalSize * 100) / 100;
+            
+            storageUsed.textContent = totalSize;
+            const percentage = Math.min((totalSize / MAX_STORAGE) * 100, 100);
+            storageBar.style.width = `${percentage}%`;
+            
+            // Mudar cor se estiver perto do limite
+            if (percentage > 90) {
+                storageBar.style.backgroundColor = '#ff3b30';
+            } else if (percentage > 70) {
+                storageBar.style.backgroundColor = '#ff9500';
+            } else {
+                storageBar.style.backgroundColor = '#0071e3';
+            }
+        }
+
+        // Logout
+        logoutBtn.addEventListener('click', () => {
+            localStorage.removeItem('currentUser');
+            currentUser = null;
+            dashboard.style.display = 'none';
+            loginForm.style.display = 'block';
+            document.getElementById('login-email').value = '';
+            document.getElementById('login-password').value = '';
+        });
+
+        // Login
+        loginBtn.addEventListener('click', () => {
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (!email || !password) {
+                loginError.textContent = 'Por favor, preencha todos os campos.';
                 return;
             }
             
-            const transaction = db.transaction([USER_STORE], 'readonly');
-            const store = transaction.objectStore(USER_STORE);
-            const request = store.get(username);
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const user = users.find(u => u.email === email && u.password === password);
             
-            request.onsuccess = (event) => {
-                const user = event.target.result;
-                
-                if (user && user.password === password) {
-                    currentUser = username;
-                    document.getElementById('currentUsername').textContent = username;
-                    document.getElementById('authScreen').classList.add('hidden');
-                    document.getElementById('appContent').classList.remove('hidden');
-                    loadAlbums();
-                    loadPhotos();
-                } else {
-                    showInfobox('Usuário ou senha incorretos.', 'error');
-                }
-            };
+            if (user) {
+                currentUser = user;
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                showDashboard(user);
+                loadUserFiles();
+                loadUserPhotos();
+            } else {
+                loginError.textContent = 'E-mail ou senha incorretos.';
+            }
+        });
+
+        // Registro
+        registerBtn.addEventListener('click', () => {
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            const confirmPassword = document.getElementById('register-confirm-password').value;
             
-            request.onerror = (event) => {
-                showInfobox('Erro ao fazer login. Tente novamente.', 'error');
-            };
-        }
-        
-        function register() {
-            const username = document.getElementById('newUsername').value.trim();
-            const password = document.getElementById('newPassword').value.trim();
-            const confirmPassword = document.getElementById('confirmPassword').value.trim();
-            
-            if (!username || !password || !confirmPassword) {
-                showInfobox('Por favor, preencha todos os campos.', 'error');
+            // Validação
+            if (!name || !email || !password || !confirmPassword) {
+                registerError.textContent = 'Por favor, preencha todos os campos.';
                 return;
             }
             
             if (password !== confirmPassword) {
-                showInfobox('As senhas não coincidem.', 'error');
+                registerError.textContent = 'As senhas não coincidem.';
                 return;
             }
             
             if (password.length < 6) {
-                showInfobox('A senha deve ter pelo menos 6 caracteres.', 'error');
+                registerError.textContent = 'A senha deve ter pelo menos 6 caracteres.';
                 return;
             }
             
-            if (username.length < 3) {
-                showInfobox('O nome de usuário deve ter pelo menos 3 caracteres.', 'error');
+            // Verificar se o e-mail já está cadastrado
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const emailExists = users.some(u => u.email === email);
+            
+            if (emailExists) {
+                registerError.textContent = 'Este e-mail já está em uso.';
                 return;
             }
             
-            const transaction = db.transaction([USER_STORE], 'readwrite');
-            const store = transaction.objectStore(USER_STORE);
-            const request = store.get(username);
-            
-            request.onsuccess = (event) => {
-                if (event.target.result) {
-                    showInfobox('Este nome de usuário já está em uso.', 'error');
-                } else {
-                    const addRequest = store.add({ username, password });
-                    
-                    addRequest.onsuccess = () => {
-                        showInfobox('Cadastro realizado com sucesso! Por favor, faça login.', 'success');
-                        showLoginForm();
-                        document.getElementById('username').value = username;
-                        document.getElementById('password').value = '';
-                        document.getElementById('newUsername').value = '';
-                        document.getElementById('newPassword').value = '';
-                        document.getElementById('confirmPassword').value = '';
-                    };
-                    
-                    addRequest.onerror = () => {
-                        showInfobox('Erro ao cadastrar usuário. Tente novamente.', 'error');
-                    };
-                }
+            // Criar novo usuário
+            const newUser = {
+                name,
+                email,
+                password
             };
             
-            request.onerror = () => {
-                showInfobox('Erro ao verificar usuário. Tente novamente.', 'error');
-            };
+            users.push(newUser);
+            localStorage.setItem('users', JSON.stringify(users));
+            
+            // Limpar formulário e mostrar mensagem de sucesso
+            document.getElementById('register-name').value = '';
+            document.getElementById('register-email').value = '';
+            document.getElementById('register-password').value = '';
+            document.getElementById('register-confirm-password').value = '';
+            
+            registerError.textContent = '';
+            registerSuccess.textContent = 'Conta criada com sucesso! Redirecionando para login...';
+            
+            // Voltar para o login após 2 segundos
+            setTimeout(() => {
+                registerForm.style.display = 'none';
+                loginForm.style.display = 'block';
+                registerSuccess.textContent = '';
+            }, 2000);
+        });
+
+        // Upload de arquivos
+        browseBtn.addEventListener('click', () => fileInput.click());
+        browsePhotosBtn.addEventListener('click', () => photoInput.click());
+
+        fileInput.addEventListener('change', handleFileUpload);
+        photoInput.addEventListener('change', handlePhotoUpload);
+
+        // Drag and drop para arquivos
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, preventDefaults, false);
+            photoDropArea.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
         }
-        
-        function logout() {
-            currentUser = null;
-            currentAlbum = null;
-            document.getElementById('appContent').classList.add('hidden');
-            document.getElementById('authScreen').classList.remove('hidden');
-            document.getElementById('username').value = '';
-            document.getElementById('password').value = '';
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, highlightFile, false);
+            photoDropArea.addEventListener(eventName, highlightPhoto, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            fileDropArea.addEventListener(eventName, unhighlightFile, false);
+            photoDropArea.addEventListener(eventName, unhighlightPhoto, false);
+        });
+
+        function highlightFile() {
+            fileDropArea.style.borderColor = '#0071e3';
+            fileDropArea.style.backgroundColor = '#f0f7ff';
         }
-        
-        // Funções para álbuns
-        function loadAlbums() {
+
+        function unhighlightFile() {
+            fileDropArea.style.borderColor = '#ddd';
+            fileDropArea.style.backgroundColor = 'transparent';
+        }
+
+        function highlightPhoto() {
+            photoDropArea.style.borderColor = '#0071e3';
+            photoDropArea.style.backgroundColor = '#f0f7ff';
+        }
+
+        function unhighlightPhoto() {
+            photoDropArea.style.borderColor = '#ddd';
+            photoDropArea.style.backgroundColor = 'transparent';
+        }
+
+        fileDropArea.addEventListener('drop', handleDrop, false);
+        photoDropArea.addEventListener('drop', handlePhotoDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        function handlePhotoDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handlePhotos(files);
+        }
+
+        function handleFileUpload(e) {
+            const files = e.target.files;
+            handleFiles(files);
+        }
+
+        function handlePhotoUpload(e) {
+            const files = e.target.files;
+            handlePhotos(files);
+        }
+
+        function handleFiles(files) {
             if (!currentUser) return;
             
-            const transaction = db.transaction([ALBUM_STORE], 'readonly');
-            const store = transaction.objectStore(ALBUM_STORE);
-            const index = store.index('user');
-            const request = index.getAll(currentUser);
+            const userFiles = JSON.parse(localStorage.getItem(`userFiles_${currentUser.email}`)) || [];
             
-            request.onsuccess = (event) => {
-                const albums = event.target.result;
-                const albumsContainer = document.getElementById('albumsContainer');
-                const albumSelect = document.getElementById('albumSelect');
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 
-                // Limpa os containers
-                albumsContainer.innerHTML = '';
-                albumSelect.innerHTML = '';
+                // Verificar se o arquivo já existe
+                const fileExists = userFiles.some(f => f.name === file.name && f.size === file.size);
                 
-                // Adiciona opção padrão
-                const defaultOption = document.createElement('option');
-                defaultOption.value = '';
-                defaultOption.textContent = 'Selecione um álbum';
-                albumSelect.appendChild(defaultOption);
+                if (!fileExists) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const fileData = {
+                            id: Date.now() + i,
+                            name: file.name,
+                            type: file.type,
+                            size: file.size,
+                            lastModified: file.lastModified,
+                            data: e.target.result.split(',')[1] // Remove o prefixo data:...
+                        };
+                        
+                        userFiles.push(fileData);
+                        localStorage.setItem(`userFiles_${currentUser.email}`, JSON.stringify(userFiles));
+                        
+                        // Atualizar a lista de arquivos e o armazenamento
+                        loadUserFiles();
+                        updateStorageDisplay();
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            fileInput.value = ''; // Limpar o input
+        }
+
+        function handlePhotos(files) {
+            if (!currentUser) return;
+            
+            const userPhotos = JSON.parse(localStorage.getItem(`userPhotos_${currentUser.email}`)) || [];
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
                 
-                // Adiciona álbuns ao dropdown
-                albums.forEach(album => {
-                    const option = document.createElement('option');
-                    option.value = album.id;
-                    option.textContent = album.name;
-                    albumSelect.appendChild(option);
-                });
+                // Verificar se é uma imagem
+                if (!file.type.startsWith('image/')) continue;
                 
-                // Adiciona card para "Todos os álbuns"
-                const allAlbumsCard = document.createElement('div');
-                allAlbumsCard.className = `album ${currentAlbum === null ? 'active' : ''}`;
-                allAlbumsCard.innerHTML = `
-                    <div class="album-header">
-                        <div class="album-name">Todos os Álbuns</div>
+                // Verificar se a foto já existe
+                const photoExists = userPhotos.some(f => f.name === file.name && f.size === file.size);
+                
+                if (!photoExists) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        const photoData = {
+                            id: Date.now() + i,
+                            name: file.name,
+                            type: file.type,
+                            size: file.size,
+                            lastModified: file.lastModified,
+                            data: e.target.result.split(',')[1] // Remove o prefixo data:...
+                        };
+                        
+                        userPhotos.push(photoData);
+                        localStorage.setItem(`userPhotos_${currentUser.email}`, JSON.stringify(userPhotos));
+                        
+                        // Atualizar a lista de fotos e o armazenamento
+                        loadUserPhotos();
+                        updateStorageDisplay();
+                    };
+                    
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            photoInput.value = ''; // Limpar o input
+        }
+
+        // Carregar arquivos do usuário
+        function loadUserFiles() {
+            if (!currentUser) return;
+            
+            const userFiles = JSON.parse(localStorage.getItem(`userFiles_${currentUser.email}`)) || [];
+            fileList.innerHTML = '';
+            
+            if (userFiles.length === 0) {
+                fileList.innerHTML = '<p style="text-align: center; color: #777;">Nenhum arquivo armazenado.</p>';
+                return;
+            }
+            
+            userFiles.forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                
+                // Determinar ícone com base no tipo de arquivo
+                let icon = '📄';
+                if (file.type.includes('pdf')) icon = '📕';
+                else if (file.type.includes('word')) icon = '📘';
+                else if (file.type.includes('excel')) icon = '📗';
+                else if (file.type.includes('zip')) icon = '🗜️';
+                
+                // Formatando o tamanho do arquivo
+                let sizeText = '';
+                if (file.size < 1024) {
+                    sizeText = `${file.size} bytes`;
+                } else if (file.size < 1024 * 1024) {
+                    sizeText = `${(file.size / 1024).toFixed(1)} KB`;
+                } else {
+                    sizeText = `${(file.size / (1024 * 1024)).toFixed(1)} MB`;
+                }
+                
+                fileItem.innerHTML = `
+                    <div class="file-icon">${icon}</div>
+                    <div class="file-info">
+                        <div class="file-name">${file.name}</div>
+                        <div class="file-size">${sizeText} • ${new Date(file.lastModified).toLocaleDateString()}</div>
                     </div>
-                    <div class="album-thumbnail">
-                        <img src="https://via.placeholder.com/300x200?text=Todas+Fotos" alt="Todos os Álbuns">
+                    <div class="file-actions">
+                        <button class="delete-file" data-id="${file.id}">Excluir</button>
                     </div>
-                    <div class="album-photo-count">${countPhotosInAlbum(null)} fotos</div>
                 `;
-                allAlbumsCard.onclick = () => {
-                    currentAlbum = null;
-                    loadPhotos();
-                    updateActiveAlbumClass();
-                };
-                albumsContainer.appendChild(allAlbumsCard);
                 
-                // Adiciona cards para cada álbum
-                albums.forEach(album => {
-                    const albumCard = document.createElement('div');
-                    albumCard.className = `album ${currentAlbum === album.id ? 'active' : ''}`;
-                    albumCard.innerHTML = `
-                        <div class="album-header">
-                            <div class="album-name">${album.name}</div>
-                            <div class="album-actions">
-                                <button onclick="event.stopPropagation(); deleteAlbum(${album.id})">🗑️</button>
-                            </div>
-                        </div>
-                        <div class="album-thumbnail">
-                            <img src="${getAlbumThumbnail(album.id)}" alt="${album.name}">
-                        </div>
-                        <div class="album-photo-count">${countPhotosInAlbum(album.id)} fotos</div>
-                    `;
-                    albumCard.onclick = () => {
-                        currentAlbum = album.id;
-                        loadPhotos();
-                        updateActiveAlbumClass();
-                    };
-                    albumsContainer.appendChild(albumCard);
+                fileList.appendChild(fileItem);
+            });
+            
+            // Adicionar eventos de exclusão
+            document.querySelectorAll('.delete-file').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const fileId = parseInt(this.getAttribute('data-id'));
+                    deleteFile(fileId);
                 });
-            };
-        }
-        
-        function countPhotosInAlbum(albumId) {
-            return new Promise((resolve) => {
-                const transaction = db.transaction([PHOTO_STORE], 'readonly');
-                const store = transaction.objectStore(PHOTO_STORE);
-                const request = store.getAll();
-                
-                request.onsuccess = (event) => {
-                    const photos = event.target.result;
-                    const filteredPhotos = photos.filter(photo => 
-                        photo.user === currentUser && 
-                        (albumId === null || photo.album === albumId)
-                    );
-                    resolve(filteredPhotos.length);
-                };
-                
-                request.onerror = () => resolve(0);
             });
         }
-        
-        function getAlbumThumbnail(albumId) {
-            // Esta função seria melhorada para pegar a primeira foto do álbum
-            // Por enquanto, usamos um placeholder
-            return 'https://via.placeholder.com/300x200?text=Album';
-        }
-        
-        function showNewAlbumModal() {
-            document.getElementById('newAlbumModal').style.display = 'flex';
-            document.getElementById('newAlbumName').value = '';
-        }
-        
-        function hideNewAlbumModal() {
-            document.getElementById('newAlbumModal').style.display = 'none';
-        }
-        
-        function createAlbum() {
-            const albumName = document.getElementById('newAlbumName').value.trim();
-            
-            if (!albumName) {
-                showInfobox('Por favor, digite um nome para o álbum.', 'error');
-                return;
-            }
-            
-            const transaction = db.transaction([ALBUM_STORE], 'readwrite');
-            const store = transaction.objectStore(ALBUM_STORE);
-            const album = {
-                user: currentUser,
-                name: albumName,
-                createdAt: new Date().getTime()
-            };
-            
-            const request = store.add(album);
-            
-            request.onsuccess = () => {
-                hideNewAlbumModal();
-                loadAlbums();
-                showInfobox('Álbum criado com sucesso!', 'success');
-            };
-            
-            request.onerror = () => {
-                showInfobox('Erro ao criar álbum. Tente novamente.', 'error');
-            };
-        }
-        
-        function deleteAlbum(albumId) {
-            if (confirm('Tem certeza que deseja excluir este álbum? As fotos não serão excluídas, apenas removidas do álbum.')) {
-                // Primeiro, remove o álbum
-                const transaction = db.transaction([ALBUM_STORE, PHOTO_STORE], 'readwrite');
-                const albumStore = transaction.objectStore(ALBUM_STORE);
-                const photoStore = transaction.objectStore(PHOTO_STORE);
-                
-                // Remove o álbum
-                const deleteRequest = albumStore.delete(albumId);
-                
-                // Atualiza as fotos deste álbum para album=null
-                const photoRequest = photoStore.getAll();
-                
-                photoRequest.onsuccess = (event) => {
-                    const photos = event.target.result;
-                    photos.forEach(photo => {
-                        if (photo.album === albumId) {
-                            photo.album = null;
-                            photoStore.put(photo);
-                        }
-                    });
-                };
-                
-                deleteRequest.onsuccess = () => {
-                    if (currentAlbum === albumId) {
-                        currentAlbum = null;
-                    }
-                    loadAlbums();
-                    loadPhotos();
-                    showInfobox('Álbum excluído com sucesso!', 'success');
-                };
-                
-                deleteRequest.onerror = () => {
-                    showInfobox('Erro ao excluir álbum. Tente novamente.', 'error');
-                };
-            }
-        }
-        
-        function updateActiveAlbumClass() {
-            const albums = document.querySelectorAll('.album');
-            albums.forEach(album => {
-                album.classList.remove('active');
-            });
-            
-            if (currentAlbum === null) {
-                // Ativa o card "Todos os Álbuns"
-                if (albums.length > 0) {
-                    albums[0].classList.add('active');
-                }
-            } else {
-                // Ativa o álbum correspondente
-                const albumElements = document.querySelectorAll('.album');
-                for (let i = 1; i < albumElements.length; i++) {
-                    const albumElement = albumElements[i];
-                    // Verifica se o álbum corresponde ao currentAlbum
-                    // (Esta verificação precisaria ser mais robusta em uma aplicação real)
-                    if (i === currentAlbum) {
-                        albumElement.classList.add('active');
-                        break;
-                    }
-                }
-            }
-            
-            // Atualiza o título da galeria
-            const galleryTitle = document.getElementById('galleryTitle');
-            if (currentAlbum === null) {
-                galleryTitle.textContent = 'Todas as Fotos';
-            } else {
-                // Busca o nome do álbum atual
-                const transaction = db.transaction([ALBUM_STORE], 'readonly');
-                const store = transaction.objectStore(ALBUM_STORE);
-                const request = store.get(currentAlbum);
-                
-                request.onsuccess = (event) => {
-                    const album = event.target.result;
-                    if (album) {
-                        galleryTitle.textContent = `Álbum: ${album.name}`;
-                    }
-                };
-            }
-        }
-        
-        // Funções do álbum de fotos
-        function loadPhotos() {
+
+        // Carregar fotos do usuário
+        function loadUserPhotos() {
             if (!currentUser) return;
             
-            const transaction = db.transaction([PHOTO_STORE], 'readonly');
-            const store = transaction.objectStore(PHOTO_STORE);
-            const request = store.getAll();
+            const userPhotos = JSON.parse(localStorage.getItem(`userPhotos_${currentUser.email}`)) || [];
+            photoGrid.innerHTML = '';
             
-            request.onsuccess = (event) => {
-                const photos = event.target.result;
-                const gallery = document.getElementById('photoGallery');
+            if (userPhotos.length === 0) {
+                photoGrid.innerHTML = '<p style="text-align: center; color: #777; grid-column: 1 / -1;">Nenhuma foto armazenada.</p>';
+                return;
+            }
+            
+            userPhotos.forEach(photo => {
+                const photoItem = document.createElement('div');
+                photoItem.className = 'photo-item';
+                photoItem.style.position = 'relative';
                 
-                gallery.innerHTML = '';
+                photoItem.innerHTML = `
+                    <div style="position: relative;">
+                        <img src="data:${photo.type};base64,${photo.data}" alt="${photo.name}" style="width: 100%; height: 150px; object-fit: cover; border-radius: 8px;">
+                        <button class="delete-photo" data-id="${photo.id}" style="position: absolute; top: 5px; right: 5px; background: rgba(255,59,48,0.8); color: white; border: none; border-radius: 50%; width: 25px; height: 25px; display: flex; align-items: center; justify-content: center; cursor: pointer;">×</button>
+                    </div>
+                    <div style="margin-top: 5px; font-size: 12px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">${photo.name}</div>
+                `;
                 
-                // Filtra fotos do usuário atual e do álbum atual (se aplicável)
-                const filteredPhotos = photos.filter(photo => 
-                    photo.user === currentUser && 
-                    (currentAlbum === null || photo.album === currentAlbum)
-                );
-                
-                if (filteredPhotos.length === 0) {
-                    gallery.innerHTML = '<div class="empty-gallery">Nenhuma foto encontrada. Adicione sua primeira foto!</div>';
-                    return;
-                }
-                
-                filteredPhotos.forEach((photo) => {
-                    const photoElement = document.createElement('div');
-                    photoElement.className = 'photo';
-                    photoElement.innerHTML = `
-                        <img src="${photo.data}" alt="${photo.name}">
-                        <h4>${photo.name.substring(0, 20)}${photo.name.length > 20 ? '...' : ''}</h4>
-                        <div class="photo-actions">
-                            <button onclick="downloadPhoto('${photo.name}', '${photo.data}')">Baixar</button>
-                            <button onclick="deletePhoto(${photo.id})">Excluir</button>
-                        </div>
-                    `;
-                    gallery.appendChild(photoElement);
+                photoGrid.appendChild(photoItem);
+            });
+            
+            // Adicionar eventos de exclusão
+            document.querySelectorAll('.delete-photo').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const photoId = parseInt(this.getAttribute('data-id'));
+                    deletePhoto(photoId);
                 });
-            };
-            
-            request.onerror = () => {
-                const gallery = document.getElementById('photoGallery');
-                gallery.innerHTML = '<div class="empty-gallery">Erro ao carregar fotos. Tente recarregar a página.</div>';
-            };
+            });
         }
-        
-        function previewImage() {
-            const fileInput = document.getElementById('fileInput');
-            const preview = document.getElementById('imagePreview');
+
+        // Excluir arquivo
+        function deleteFile(fileId) {
+            if (!currentUser) return;
             
-            if (fileInput.files && fileInput.files[0]) {
-                const reader = new FileReader();
-                
-                reader.onload = function(e) {
-                    preview.innerHTML = `<img src="${e.target.result}" alt="Preview">`;
-                    preview.classList.remove('empty');
-                };
-                
-                reader.readAsDataURL(fileInput.files[0]);
-            } else {
-                preview.innerHTML = 'Selecione uma imagem';
-                preview.classList.add('empty');
-            }
+            const userFiles = JSON.parse(localStorage.getItem(`userFiles_${currentUser.email}`)) || [];
+            const updatedFiles = userFiles.filter(file => file.id !== fileId);
+            
+            localStorage.setItem(`userFiles_${currentUser.email}`, JSON.stringify(updatedFiles));
+            loadUserFiles();
+            updateStorageDisplay();
         }
-        
-        function uploadPhoto() {
-            if (!currentUser) {
-                showInfobox('Você precisa estar logado para enviar fotos.', 'error');
-                return;
-            }
-            
-            const fileInput = document.getElementById('fileInput');
-            const file = fileInput.files[0];
-            const albumSelect = document.getElementById('albumSelect');
-            const albumId = albumSelect.value ? parseInt(albumSelect.value) : null;
-            
-            if (!file) {
-                showInfobox('Por favor, selecione uma foto primeiro.', 'error');
-                return;
-            }
-            
-            // Limita o tamanho do arquivo para 5MB (pode aumentar conforme necessidade)
-            if (file.size > 5 * 1024 * 1024) {
-                showInfobox('A foto deve ter menos de 5MB.', 'error');
-                return;
-            }
-            
-            // Verifica se um álbum foi selecionado
-            if (albumSelect.value === '') {
-                showInfobox('Por favor, selecione um álbum para a foto.', 'error');
-                return;
-            }
-            
-            const reader = new FileReader();
-            
-            reader.onload = function(e) {
-                const transaction = db.transaction([PHOTO_STORE], 'readwrite');
-                const store = transaction.objectStore(PHOTO_STORE);
-                
-                const photoData = {
-                    user: currentUser,
-                    album: albumId,
-                    name: file.name,
-                    data: e.target.result,
-                    timestamp: new Date().getTime()
-                };
-                
-                const request = store.add(photoData);
-                
-                request.onsuccess = () => {
-                    loadPhotos();
-                    loadAlbums(); // Atualiza a contagem de fotos nos álbuns
-                    fileInput.value = '';
-                    document.getElementById('imagePreview').innerHTML = 'Selecione uma imagem';
-                    document.getElementById('imagePreview').classList.add('empty');
-                    showInfobox('Foto enviada com sucesso!', 'success');
-                };
-                
-                request.onerror = () => {
-                    showInfobox('Erro ao enviar foto. Tente novamente.', 'error');
-                };
-            };
-            
-            reader.onerror = () => {
-                showInfobox('Erro ao ler o arquivo. Tente novamente.', 'error');
-            };
-            
-            reader.readAsDataURL(file);
-        }
-        
-        function downloadPhoto(name, dataUrl) {
-            const link = document.createElement('a');
-            link.href = dataUrl;
-            link.download = name;
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        }
-        
+
+        // Excluir foto
         function deletePhoto(photoId) {
-            if (confirm('Tem certeza que deseja excluir esta foto?')) {
-                const transaction = db.transaction([PHOTO_STORE], 'readwrite');
-                const store = transaction.objectStore(PHOTO_STORE);
-                const request = store.delete(photoId);
-                
-                request.onsuccess = () => {
-                    loadPhotos();
-                    loadAlbums(); // Atualiza a contagem de fotos nos álbuns
-                    showInfobox('Foto excluída com sucesso!', 'success');
-                };
-                
-                request.onerror = () => {
-                    showInfobox('Erro ao excluir foto. Tente novamente.', 'error');
-                };
-            }
+            if (!currentUser) return;
+            
+            const userPhotos = JSON.parse(localStorage.getItem(`userPhotos_${currentUser.email}`)) || [];
+            const updatedPhotos = userPhotos.filter(photo => photo.id !== photoId);
+            
+            localStorage.setItem(`userPhotos_${currentUser.email}`, JSON.stringify(updatedPhotos));
+            loadUserPhotos();
+            updateStorageDisplay();
         }
-        
-        // Inicializa o aplicativo
-        window.onload = async function() {
-            try {
-                await initDB();
-                showLoginForm();
-                
-                // Verifica se há espaço suficiente (pode ser implementado)
-                if (!navigator.storage || !navigator.storage.estimate) {
-                    console.log('API de estimativa de armazenamento não disponível');
-                } else {
-                    navigator.storage.estimate().then(estimate => {
-                        console.log(`Espaço disponível: ${Math.round(estimate.quota / (1024 * 1024))}MB`);
-                    });
-                }
-            } catch (error) {
-                console.error('Erro ao inicializar o aplicativo:', error);
-                showInfobox('Erro ao inicializar o aplicativo. Recarregue a página.', 'error');
-            }
-        };
+
+        // Verificar se o usuário já está logado ao carregar a página
+        document.addEventListener('DOMContentLoaded', checkLoggedIn);
     </script>
 </body>
 </html>
